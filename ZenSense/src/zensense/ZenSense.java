@@ -2,22 +2,28 @@
 package zensense;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.*;
 import java.util.ArrayList;
 import java.util.Date;
+
 
 public class ZenSense {
 
     public static Date d = new Date();
-    public static final String FILEPATH = "";
+    public static final String FILEPATH = "/Users/jordandearsley/poo.csv";
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        if(!(new File(FILEPATH).canRead())){
+            (new File(FILEPATH)).createNewFile();
+        }
         d = new Date();
-        
+        double[] fakedata = new double[] {5.2,4.3,50.4};
+        writeFile(fakedata);
+        ArrayList data = readFile();
     }
     
     public static double[] pullData(int numSensors){
@@ -28,22 +34,30 @@ public class ZenSense {
         return ethaneData;
     }
     
-    public static void writeFile(double[] data){
-        try(FileWriter fw = new FileWriter(FILEPATH, true);
+    public static void writeFile(double[] data) throws IOException{
+        if(!(new File(FILEPATH).canRead())){
+            (new File(FILEPATH)).createNewFile();
+        }
+        
+        try(
+            FileWriter fw = new FileWriter(FILEPATH, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {       
-            out.print(","+data[0]);
-            out.print(","+data[2]);
-            out.print(","+data[3]);
+            out.print(data[0]+",");
+            out.print(data[1]+",");
+            out.print(data[2]+",");
         } catch (IOException e) {
+            System.out.println(e);
             System.out.println("Something Fucked up");
         }
     
     }
     
-    public static ArrayList<String[]> readFile(){
-        
+    public static ArrayList<String[]> readFile() throws IOException{
+        if(!(new File(FILEPATH).canRead())){
+            (new File(FILEPATH)).createNewFile();
+        }
         String line = "";
         String cvsSplitBy = ",";
         ArrayList historicalData = new ArrayList<String[]>();
