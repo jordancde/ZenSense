@@ -15,20 +15,23 @@ public class ZenSense {
 
     public static Date d = new Date();
     public static final String FILEPATH = "/Users/jordandearsley/poo.csv";
+    public static final int NUMSENSORS = 5;
+    public static final int RIPEVOLTAGE = 5;
+    public static final int GRIDSIZE = 500;
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, Exception {
         if(!(new File(FILEPATH).canRead())){
             (new File(FILEPATH)).createNewFile();
         }
         d = new Date();
-        double[] fakedata = new double[] {5.2,4.3,50.4};
-        writeFile(fakedata);
-        ArrayList<String[]> data = readFile();
-        System.out.println(data.get(0)[1]);
+        //Time, Voltage, Battery, Xpos%, Ypos%
+        //double[] fakedata = new double[] {5.2,4.3,50.4,50,60};
+        //writeFile(fakedata);
+        HeatMapFrame.main(args);
     }
     
-    public static double[] pullData(int numSensors){
-        double[] ethaneData = new double[numSensors];
+    public static double[] pullData(){
+        double[] ethaneData = new double[NUMSENSORS];
         //BLAHBLAHBLAH;
         //PULLING DATA FROM TRANSMISSION;
         //ethaneData = NUMBERSANDSHIT;
@@ -48,6 +51,9 @@ public class ZenSense {
             out.print(data[0]+",");
             out.print(data[1]+",");
             out.print(data[2]+",");
+            out.print(data[3]+",");
+            out.print(data[4]+",");
+            out.println("");
         } catch (IOException e) {
             System.out.println(e);
             System.out.println("Something Fucked up");
@@ -78,4 +84,40 @@ public class ZenSense {
         }
         return historicalData;
     }
+    
+    public static double[][] generateHeatMapData() throws IOException{
+        double[][] data = new double[GRIDSIZE][GRIDSIZE];
+        for(int i = 0;i<data.length;i++){
+            for(int j = 0;j<data[i].length;j++){
+                data[i][j] = 1;
+            }
+        }
+        ArrayList<String[]> previousCheck = new ArrayList<String[]>();
+        ArrayList<String[]> rawData = readFile();
+        
+        
+        for(int i = 0;i<NUMSENSORS;i++){
+            previousCheck.add(rawData.get(rawData.size()-1-i));
+            
+        }
+        for(String[] sensor:previousCheck){
+            
+            double voltage = Double.parseDouble(sensor[1]);
+            
+            System.out.println(voltage/RIPEVOLTAGE);
+            double x = Double.parseDouble(sensor[3]);
+            double y = Double.parseDouble(sensor[4]);
+            double distance = 0;
+            for(int i = 0;i<data.length;i++){
+                for(int j = 0;j<data.length;j++){
+                    distance =  Math.sqrt(Math.pow((int)(x/100*GRIDSIZE)-i,2)+Math.pow((int)(y/100*GRIDSIZE)-j,2));
+                    data[i][j] -= (voltage/RIPEVOLTAGE)*(distance/GRIDSIZE)/Math.pow(NUMSENSORS,22);
+                }
+            }
+        }
+        
+        return data;
+    }
+    
+    
 }
