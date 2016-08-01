@@ -23,7 +23,8 @@ public class ZenSense {
         d = new Date();
         double[] fakedata = new double[] {5.2,4.3,50.4};
         writeFile(fakedata);
-        ArrayList data = readFile();
+        ArrayList<String[]> data = readFile();
+        System.out.println(data.get(0)[1]);
     }
     
     public static double[] pullData(int numSensors){
