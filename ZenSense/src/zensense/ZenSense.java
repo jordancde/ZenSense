@@ -100,21 +100,33 @@ public class ZenSense {
             previousCheck.add(rawData.get(rawData.size()-1-i));
             
         }
-        for(String[] sensor:previousCheck){
-            
-            double voltage = Double.parseDouble(sensor[1]);
-            
-            System.out.println(voltage/RIPEVOLTAGE);
-            double x = Double.parseDouble(sensor[3]);
-            double y = Double.parseDouble(sensor[4]);
-            double distance = 0;
-            for(int i = 0;i<data.length;i++){
-                for(int j = 0;j<data.length;j++){
-                    distance =  Math.sqrt(Math.pow((int)(x/100*GRIDSIZE)-i,2)+Math.pow((int)(y/100*GRIDSIZE)-j,2));
-                    data[i][j] -= (voltage/RIPEVOLTAGE)*(distance/GRIDSIZE)/Math.pow(NUMSENSORS,22);
+        double distance = 0;
+        for(int i = 0;i<data.length;i++){
+            for(int j = 0;j<data.length;j++){
+                distance = 0;
+                for(String[] sensor:previousCheck){
+                    
+                    double x = Double.parseDouble(sensor[3]);
+                    double y = Double.parseDouble(sensor[4]);
+                    distance +=  Math.sqrt(Math.pow((int)(x/100*GRIDSIZE)-i,2)+Math.pow((int)(y/100*GRIDSIZE)-j,2));
+
                 }
+                
+                double averageVoltage = 0;
+                for(String[] sensor:previousCheck){
+                    double x = Double.parseDouble(sensor[3]);
+                    double y = Double.parseDouble(sensor[4]);
+                    double voltage = Double.parseDouble(sensor[1]);
+                    double distancePercent = (Math.sqrt(Math.pow((int)(x/100*GRIDSIZE)-i,2)+Math.pow((int)(y/100*GRIDSIZE)-j,2)))/distance;
+                    averageVoltage += voltage*distancePercent;
+                }
+                data[i][j] = averageVoltage/RIPEVOLTAGE;
+                
             }
+                
         }
+        
+        
         
         return data;
     }

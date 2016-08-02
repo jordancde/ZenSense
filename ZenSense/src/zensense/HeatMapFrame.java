@@ -23,7 +23,7 @@ class HeatMapFrame extends JFrame
 
         // or you can also make a custom gradient:
 
-        Color[] gradientColors = new Color[]{Color.blue,Color.green,Color.yellow};
+        Color[] gradientColors = new Color[]{Color.yellow,Color.green,Color.blue};
         Color[] customGradient = Gradient.createMultiGradient(gradientColors, 500);
         panel.updateGradient(customGradient);
         
