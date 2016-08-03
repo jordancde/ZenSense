@@ -14,20 +14,28 @@ import java.util.Date;
 public class ZenSense {
 
     public static Date d = new Date();
-    public static final String FILEPATH = "/Users/jordandearsley/poo.csv";
+    public static final String FILEPATH = "/Users/jordandearsley/data.csv";
     public static final int NUMSENSORS = 5;
     public static final int RIPEVOLTAGE = 5;
     public static final int GRIDSIZE = 500;
+    public static Date dataDate;
     
     public static void main(String[] args) throws IOException, Exception {
         if(!(new File(FILEPATH).canRead())){
             (new File(FILEPATH)).createNewFile();
         }
         d = new Date();
-        //Time, Voltage, Battery, Xpos%, Ypos%
-        //double[] fakedata = new double[] {5.2,4.3,50.4,50,60};
-        //writeFile(fakedata);
+        //Time, Voltage, Battery, Xpos%, Ypos%, SensorID
+        double[] fakedata;
+        for(int i = 0;i<5;i++){
+            fakedata = new double[] {d.getTime(),Math.random()*5,Math.random()*100,Math.random()*100,Math.random()*100,i};
+            
+            writeFile(fakedata,d.getTime());
+        }
+        
+        SensorLevels.main(args);
         HeatMapFrame.main(args);
+        Control.main(args);
     }
     
     public static double[] pullData(){
@@ -38,7 +46,7 @@ public class ZenSense {
         return ethaneData;
     }
     
-    public static void writeFile(double[] data) throws IOException{
+    public static void writeFile(double[] data, long time) throws IOException{
         if(!(new File(FILEPATH).canRead())){
             (new File(FILEPATH)).createNewFile();
         }
@@ -48,11 +56,12 @@ public class ZenSense {
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {       
-            out.print(data[0]+",");
+            out.print(time+",");
             out.print(data[1]+",");
             out.print(data[2]+",");
             out.print(data[3]+",");
             out.print(data[4]+",");
+            out.print(data[5]+",");
             out.println("");
         } catch (IOException e) {
             System.out.println(e);
@@ -84,8 +93,8 @@ public class ZenSense {
         }
         return historicalData;
     }
-    
-    public static double[][] generateHeatMapData() throws IOException{
+    //historicIndex is how far back requested, 0 is most current
+    public static double[][] generateHeatMapData(int historicIndex) throws IOException{
         double[][] data = new double[GRIDSIZE][GRIDSIZE];
         for(int i = 0;i<data.length;i++){
             for(int j = 0;j<data[i].length;j++){
@@ -94,12 +103,14 @@ public class ZenSense {
         }
         ArrayList<String[]> previousCheck = new ArrayList<String[]>();
         ArrayList<String[]> rawData = readFile();
-        
+        dataDate = new Date(Long.parseLong(rawData.get(rawData.size()-1-NUMSENSORS*historicIndex)[0]));
         
         for(int i = 0;i<NUMSENSORS;i++){
-            previousCheck.add(rawData.get(rawData.size()-1-i));
-            
+            previousCheck.add(rawData.get(rawData.size()-1-NUMSENSORS*historicIndex-i));
         }
+        
+        
+        
         double distance = 0;
         for(int i = 0;i<data.length;i++){
             for(int j = 0;j<data.length;j++){

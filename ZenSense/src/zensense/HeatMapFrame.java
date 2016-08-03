@@ -6,13 +6,13 @@ import zensense.ZenSense;
 
 class HeatMapFrame extends JFrame
 {
-    HeatMap panel;
+    static HeatMap panel;
 
     public HeatMapFrame() throws Exception
     {
 
         super("Heat Map");
-        double[][] data = ZenSense.generateHeatMapData();
+        double[][] data = ZenSense.generateHeatMapData(0);
         
         
         boolean useGraphicsYAxis = true;

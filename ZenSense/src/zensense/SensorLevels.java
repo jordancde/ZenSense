@@ -2,6 +2,8 @@
 package zensense;
 
 
+import java.io.IOException;
+import java.util.ArrayList;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel; 
 import org.jfree.chart.JFreeChart; 
@@ -10,52 +12,70 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset; 
 import org.jfree.ui.ApplicationFrame; 
 import org.jfree.ui.RefineryUtilities; 
+import static zensense.ZenSense.NUMSENSORS;
 
 public class SensorLevels extends ApplicationFrame
 {
-   public SensorLevels( String applicationTitle , String chartTitle )
+   public static CategoryDataset chartData;
+   public static JFreeChart barChart;
+   public static ChartPanel chartPanel;
+   public SensorLevels( String applicationTitle , String chartTitle ) throws IOException
    {
-      super( applicationTitle );        
-      JFreeChart barChart = ChartFactory.createBarChart(
+      super( applicationTitle );   
+      chartData = createDataset();
+      barChart = ChartFactory.createBarChart(
          chartTitle,           
          "Category",            
          "Score",            
-         createDataset(),          
+         chartData,          
          PlotOrientation.VERTICAL,           
          true, true, false);
          
-      ChartPanel chartPanel = new ChartPanel( barChart );        
+      chartPanel = new ChartPanel( barChart );        
       chartPanel.setPreferredSize(new java.awt.Dimension( 560 , 367 ) );        
       setContentPane( chartPanel ); 
-   }
-   private CategoryDataset createDataset( )
-   {
-      final String sensor1 = "Sensor 1";        
-      final String sensor2 = "Sensor 2";        
-      final String sensor3 = "Sensor 3"; 
       
+   }
+   private CategoryDataset createDataset( ) throws IOException
+   {
+      ArrayList<String[]> sensorData = ZenSense.readFile();
+    
       final String battery = "Battery";        
       final String ripeness = "Ripeness";        
         
-      final DefaultCategoryDataset dataset = 
-      new DefaultCategoryDataset( );  
+      final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );  
 
-      dataset.addValue( 1.0 , sensor1 , battery );        
-      dataset.addValue( 5.0 , sensor1 , ripeness ); 
-
-      dataset.addValue( 5.0 , sensor2 , battery );        
-      dataset.addValue( 10.0 , sensor2 , ripeness );        
-
-      dataset.addValue( 4.0 , sensor3 , battery );               
-      dataset.addValue( 3.0 , sensor3 , ripeness );                   
-
+      for(int i = 0;i<ZenSense.NUMSENSORS;i++){
+          dataset.addValue( Double.parseDouble(sensorData.get(sensorData.size()-i-1)[2]) , "Sensor "+sensorData.get(sensorData.size()-i-1)[5] , battery );        
+          dataset.addValue( Double.parseDouble(sensorData.get(sensorData.size()-i-1)[1])/ZenSense.RIPEVOLTAGE*100 , "Sensor "+sensorData.get(sensorData.size()-i-1)[5] , ripeness );        
+      }
+      
       return dataset; 
    }
-   public static void main( String[ ] args )
+   
+   public static void refreshData(int historicIndex) throws IOException{
+       ArrayList<String[]> sensorData = ZenSense.readFile();
+       final String battery = "Battery";        
+      final String ripeness = "Ripeness";        
+        
+      final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );  
+
+      for(int i = 0;i<ZenSense.NUMSENSORS;i++){
+          dataset.addValue( Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*historicIndex)[2]) , "Sensor "+sensorData.get(sensorData.size()-i-1)[5] , battery );        
+          dataset.addValue( Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*historicIndex)[1])/ZenSense.RIPEVOLTAGE*100 , "Sensor "+sensorData.get(sensorData.size()-i-1)[5] , ripeness );        
+      }
+     
+      chartData = dataset;
+      
+   }
+   
+   
+   public static void main( String[ ] args ) throws IOException
    {
-      SensorLevels chart = new SensorLevels("Sensor Data","Battery and Ripeness Levels");
+      SensorLevels chart = new SensorLevels("Sensor Data","Battery and Ripeness Levels (%)");
       chart.pack( );        
       RefineryUtilities.centerFrameOnScreen( chart );        
-      chart.setVisible( true ); 
+      chart.setVisible( true );
+      
    }
 }
