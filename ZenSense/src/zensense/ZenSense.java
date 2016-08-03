@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,16 +15,21 @@ import java.util.Date;
 public class ZenSense {
 
     public static Date d = new Date();
-    public static final String FILEPATH = "/Users/jordandearsley/data.csv";
+    public static String FILEPATH;
     public static final int NUMSENSORS = 5;
     public static final int RIPEVOLTAGE = 5;
     public static final int GRIDSIZE = 500;
     public static Date dataDate;
     
     public static void main(String[] args) throws IOException, Exception {
+        URL location = ZenSense.class.getProtectionDomain().getCodeSource().getLocation();
+        FILEPATH = location.getFile()+"data.csv";
+        
         if(!(new File(FILEPATH).canRead())){
             (new File(FILEPATH)).createNewFile();
         }
+        
+        
         d = new Date();
         //Time, Voltage, Battery, Xpos%, Ypos%, SensorID
         double[] fakedata;
