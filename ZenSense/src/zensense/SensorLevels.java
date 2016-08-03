@@ -16,7 +16,7 @@ import static zensense.ZenSense.NUMSENSORS;
 
 public class SensorLevels extends ApplicationFrame
 {
-   public static CategoryDataset chartData;
+   public static DefaultCategoryDataset chartData;
    public static JFreeChart barChart;
    public static ChartPanel chartPanel;
    public SensorLevels( String applicationTitle , String chartTitle ) throws IOException
@@ -36,7 +36,7 @@ public class SensorLevels extends ApplicationFrame
       setContentPane( chartPanel ); 
       
    }
-   private CategoryDataset createDataset( ) throws IOException
+   private DefaultCategoryDataset createDataset( ) throws IOException
    {
       ArrayList<String[]> sensorData = ZenSense.readFile();
     
@@ -58,15 +58,12 @@ public class SensorLevels extends ApplicationFrame
        final String battery = "Battery";        
       final String ripeness = "Ripeness";        
         
-      final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );  
-
+      //final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );  
       for(int i = 0;i<ZenSense.NUMSENSORS;i++){
-          dataset.addValue( Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*historicIndex)[2]) , "Sensor "+sensorData.get(sensorData.size()-i-1)[5] , battery );        
-          dataset.addValue( Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*historicIndex)[1])/ZenSense.RIPEVOLTAGE*100 , "Sensor "+sensorData.get(sensorData.size()-i-1)[5] , ripeness );        
+          chartData.addValue( Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*historicIndex)[2]) , "Sensor "+sensorData.get(sensorData.size()-i-1)[5] , battery );        
+          chartData.addValue( Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*historicIndex)[1])/ZenSense.RIPEVOLTAGE*100 , "Sensor "+sensorData.get(sensorData.size()-i-1)[5] , ripeness );        
       }
-     
-      chartData = dataset;
-      
+   
    }
    
    
