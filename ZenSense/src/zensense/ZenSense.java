@@ -20,6 +20,8 @@ public class ZenSense {
     public static final int RIPEVOLTAGE = 5;
     public static final int GRIDSIZE = 500;
     public static Date dataDate;
+    public static SensorMap sensormap;
+
     
     public static void main(String[] args) throws IOException, Exception {
         URL location = ZenSense.class.getProtectionDomain().getCodeSource().getLocation();
@@ -38,10 +40,13 @@ public class ZenSense {
             
             writeFile(fakedata,d.getTime());
         }
-        
+        sensormap = new SensorMap();
         SensorLevels.main(args);
         HeatMapFrame.main(args);
+        
         Control.main(args);
+        
+        
     }
     
     public static double[] pullData(){
@@ -53,9 +58,7 @@ public class ZenSense {
     }
     
     public static void writeFile(double[] data, long time) throws IOException{
-        if(!(new File(FILEPATH).canRead())){
-            (new File(FILEPATH)).createNewFile();
-        }
+        
         
         try(
             FileWriter fw = new FileWriter(FILEPATH, true);
@@ -77,9 +80,7 @@ public class ZenSense {
     }
     
     public static ArrayList<String[]> readFile() throws IOException{
-        if(!(new File(FILEPATH).canRead())){
-            (new File(FILEPATH)).createNewFile();
-        }
+        
         String line = "";
         String cvsSplitBy = ",";
         ArrayList historicalData = new ArrayList<String[]>();

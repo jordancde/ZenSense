@@ -11,6 +11,7 @@ public class Control
 {
   static JFrame frame;
   static int HISTORICINDEX = 0; 
+  static JLabel datelabel;
   public static void main(String[] args)
   {
     // schedule this for the event dispatch thread (edt)
@@ -30,7 +31,7 @@ public class Control
     // create our jbutton
     JButton previous = new JButton("Previous");
     JButton next = new JButton("Next");
-    JLabel datelabel = new JLabel(ZenSense.dataDate.toString());
+    datelabel = new JLabel(ZenSense.dataDate.toString());
     
     // add the listener to the jbutton to handle the "pressed" event
     previous.addActionListener(new ActionListener()
@@ -42,6 +43,7 @@ public class Control
               datelabel.setText("Loading...");
               HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
               SensorLevels.refreshData(HISTORICINDEX);
+              ZenSense.sensormap.refresh();
               datelabel.setText(ZenSense.dataDate.toString());
           } catch (Exception ex) {
               JOptionPane.showMessageDialog(frame, "no data for this time period");
@@ -49,6 +51,7 @@ public class Control
               try {
                   HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
                   SensorLevels.refreshData(HISTORICINDEX);
+                  ZenSense.sensormap.refresh();
                   datelabel.setText(ZenSense.dataDate.toString());
               } catch (Exception ex1) {
                   Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex1);
@@ -65,6 +68,7 @@ public class Control
               datelabel.setText("Loading...");
               HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
               SensorLevels.refreshData(HISTORICINDEX);
+              ZenSense.sensormap.refresh();
               datelabel.setText(ZenSense.dataDate.toString());
           } catch (Exception ex) {
               JOptionPane.showMessageDialog(frame, "no data for this time period");
@@ -72,6 +76,7 @@ public class Control
               try {
                   HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
                   SensorLevels.refreshData(HISTORICINDEX);
+                  ZenSense.sensormap.refresh();
                   datelabel.setText(ZenSense.dataDate.toString());
               } catch (Exception ex1) {
                   Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex1);
@@ -92,4 +97,6 @@ public class Control
     frame.setLocationRelativeTo(null);
     frame.setVisible(true);
   }
+  
+  
 }

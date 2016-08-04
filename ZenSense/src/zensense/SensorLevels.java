@@ -19,7 +19,9 @@ public class SensorLevels extends ApplicationFrame
    public static DefaultCategoryDataset chartData;
    public static JFreeChart barChart;
    public static ChartPanel chartPanel;
-   public SensorLevels( String applicationTitle , String chartTitle ) throws IOException
+   public static String applicationTitle = "Sensor Levels";
+   public static String chartTitle = "Battery and Ripeness Levels (%)";
+   public SensorLevels() throws IOException
    {
       super( applicationTitle );   
       chartData = createDataset();
@@ -69,7 +71,7 @@ public class SensorLevels extends ApplicationFrame
    
    public static void main( String[ ] args ) throws IOException
    {
-      SensorLevels chart = new SensorLevels("Sensor Data","Battery and Ripeness Levels (%)");
+      SensorLevels chart = new SensorLevels();
       chart.pack( );        
       RefineryUtilities.centerFrameOnScreen( chart );        
       chart.setVisible( true );
