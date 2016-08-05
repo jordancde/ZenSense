@@ -2,9 +2,15 @@ package zensense;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.*;
+import static zensense.Control.HISTORICINDEX;
+import static zensense.ZenSense.NUMSENSORS;
 
 /**
  *
@@ -546,9 +552,13 @@ public class HeatMap extends JPanel
         
         this.setOpaque(true);
 
+        
+        
         // clear the panel
         g2d.setColor(bg);
         g2d.fillRect(0, 0, width, height);
+        
+       
 
         // draw the heat map
         if (bufferedImage == null)
@@ -569,10 +579,22 @@ public class HeatMap extends JPanel
                       0, 0,
                       bufferedImage.getWidth(), bufferedImage.getHeight(),
                       null);
+        ArrayList<String[]> sensorData = new ArrayList<String[]>();
+        try {
+            sensorData = ZenSense.readFile();
+        } catch (IOException ex) {
+            Logger.getLogger(HeatMap.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         // border
         g2d.setColor(fg);
         g2d.drawRect(30, 30, width - 60, height - 60);
+        
+        g2d.setColor(Color.red);
+        for(int i = 0;i<ZenSense.NUMSENSORS;i++){
+            g2d.drawOval((int) ((width-60)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)+20, (int) ((height-60)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100)+20, 20, 20);
+        }
+        g2d.setColor(fg);
         
         // title
         if (drawTitle && title != null)

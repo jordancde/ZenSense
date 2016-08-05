@@ -46,6 +46,7 @@ class HeatMapFrame extends JFrame
         panel.setDrawYTicks(drawTitles);
 
         this.getContentPane().add(panel);
+        
     }
 
     // this function will be run from the EDT
@@ -59,6 +60,7 @@ class HeatMapFrame extends JFrame
         hmf.setVisible(true);
 
     }
+    
 
     public static void main(String[] args)
     {
@@ -69,6 +71,7 @@ class HeatMapFrame extends JFrame
                 try
                 {
                     createAndShowGUI();
+                    
                 }
                 catch (Exception e)
                 {

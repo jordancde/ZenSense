@@ -20,7 +20,6 @@ public class ZenSense {
     public static final int RIPEVOLTAGE = 5;
     public static final int GRIDSIZE = 500;
     public static Date dataDate;
-    public static SensorMap sensormap;
 
     
     public static void main(String[] args) throws IOException, Exception {
@@ -40,10 +39,9 @@ public class ZenSense {
             
             writeFile(fakedata,d.getTime());
         }
-        sensormap = new SensorMap();
+        
         SensorLevels.main(args);
         HeatMapFrame.main(args);
-        
         Control.main(args);
         
         

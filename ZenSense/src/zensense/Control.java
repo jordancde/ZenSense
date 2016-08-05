@@ -43,7 +43,6 @@ public class Control
               datelabel.setText("Loading...");
               HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
               SensorLevels.refreshData(HISTORICINDEX);
-              ZenSense.sensormap.refresh();
               datelabel.setText(ZenSense.dataDate.toString());
           } catch (Exception ex) {
               JOptionPane.showMessageDialog(frame, "no data for this time period");
@@ -51,7 +50,6 @@ public class Control
               try {
                   HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
                   SensorLevels.refreshData(HISTORICINDEX);
-                  ZenSense.sensormap.refresh();
                   datelabel.setText(ZenSense.dataDate.toString());
               } catch (Exception ex1) {
                   Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex1);
@@ -68,7 +66,6 @@ public class Control
               datelabel.setText("Loading...");
               HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
               SensorLevels.refreshData(HISTORICINDEX);
-              ZenSense.sensormap.refresh();
               datelabel.setText(ZenSense.dataDate.toString());
           } catch (Exception ex) {
               JOptionPane.showMessageDialog(frame, "no data for this time period");
@@ -76,7 +73,6 @@ public class Control
               try {
                   HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
                   SensorLevels.refreshData(HISTORICINDEX);
-                  ZenSense.sensormap.refresh();
                   datelabel.setText(ZenSense.dataDate.toString());
               } catch (Exception ex1) {
                   Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex1);
