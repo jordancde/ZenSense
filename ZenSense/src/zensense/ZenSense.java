@@ -20,6 +20,7 @@ public class ZenSense {
     public static final int RIPEVOLTAGE = 5;
     public static final int GRIDSIZE = 500;
     public static Date dataDate;
+    
 
     
     public static void main(String[] args) throws IOException, Exception {

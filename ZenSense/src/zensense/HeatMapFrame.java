@@ -2,6 +2,7 @@ package zensense;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import zensense.ZenSense;
 
 class HeatMapFrame extends JFrame
@@ -48,7 +49,12 @@ class HeatMapFrame extends JFrame
         this.getContentPane().add(panel);
         
     }
-
+    public void mouseClicked(final MouseEvent evt) {
+        final Point pos = evt.getPoint();
+        final int x = pos.x;
+        final int y = pos.y;
+        System.out.println(x+" "+y);
+    }
     // this function will be run from the EDT
 
     private static void createAndShowGUI() throws Exception

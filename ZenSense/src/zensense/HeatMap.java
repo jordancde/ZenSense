@@ -1,6 +1,8 @@
 package zensense;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -96,6 +98,11 @@ public class HeatMap extends JPanel
 
     private BufferedImage bufferedImage;
     private Graphics2D bufferedGraphics;
+    private ArrayList<String[]> sensorData;
+    public int width;
+    public int height;
+    public double mouseX;
+    public double mouseY;
     
     /**
      * @param data The data to display, must be a complete array (non-ragged)
@@ -105,7 +112,7 @@ public class HeatMap extends JPanel
     public HeatMap(double[][] data, boolean useGraphicsYAxis, Color[] colors)
     {
         super();
-
+        
         updateGradient(colors);
         updateData(data, useGraphicsYAxis);
 
@@ -119,6 +126,23 @@ public class HeatMap extends JPanel
         // BufferedImage. The data plot is then cheaply drawn to the screen when
         // needed, saving us a lot of time in the end.
         drawData();
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseX=(e.getX()-30)*100/(width-60);
+                mouseY=(e.getY()-30)*100/(height-60);
+                updateSensorData();
+            }
+        });
+    }
+    
+    public void updateSensorData(){
+        for(int i = 0;i<ZenSense.NUMSENSORS;i++){
+            if(Math.abs(Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])-mouseX)<=3&&(Math.abs(Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])-mouseY)<=3)){
+                Control.displaySensor(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX));
+                break;
+            }
+        }
     }
 
     /**
@@ -547,8 +571,8 @@ public class HeatMap extends JPanel
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         
-        int width = this.getWidth();
-        int height = this.getHeight();
+        width = this.getWidth();
+        height = this.getHeight();
         
         this.setOpaque(true);
 
@@ -579,7 +603,7 @@ public class HeatMap extends JPanel
                       0, 0,
                       bufferedImage.getWidth(), bufferedImage.getHeight(),
                       null);
-        ArrayList<String[]> sensorData = new ArrayList<String[]>();
+        sensorData = new ArrayList<String[]>();
         try {
             sensorData = ZenSense.readFile();
         } catch (IOException ex) {
@@ -592,7 +616,8 @@ public class HeatMap extends JPanel
         
         g2d.setColor(Color.red);
         for(int i = 0;i<ZenSense.NUMSENSORS;i++){
-            g2d.drawOval((int) ((width-60)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)+20, (int) ((height-60)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100)+20, 20, 20);
+            g2d.fillOval((int) ((width-60)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)+20, (int) ((height-60)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100)+20, 20, 20);
+        
         }
         g2d.setColor(fg);
         
