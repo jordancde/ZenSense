@@ -48,18 +48,22 @@ void loop() {
     while(hub.connected()){
       //Scan sensor and send back to hub
       int etheneData;
-      etheneData = getEtheneLevel();
+      etheneData = analogRead(sensorPin);
+      //etheneData = getEtheneLevel();
       updateHub(etheneData);
     }
   }
 }
 
+
+/* This is not exactly needed
 int getEtheneLevel(){
   //Connects to the analog ethene sensor
   int etheneLevel = 9999;
   etheneLevel = analogRead(sensorPin); //checking the analog reading
   return etheneLevel;
 }
+*/
 
 void updateHub(int EDV){
   //Send data back to the hub via BLE
