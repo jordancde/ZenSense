@@ -25,51 +25,46 @@
 const int indicatorPin = 13;
 const int sensorPin = A0;
 BLEPeripheral sensorRelay;
-BLEService sensorData("TEMP_UUID");//Replace with a real UUID
+BLEService sensorDataService("f348dd41-c9e9-46fa-8542-621dd90ffb1c");//This uses a random UUID
+BLECharacteristic etheneTrans("f348dd41-c9e9-46fa-8542-621dd90ffb1c", BLERead | BLENotify, 10);//I don't know what is going on here, this code is a modified version of an example
 
 void setup() {
   //Constructor
   pinMode(indicatorPin, OUTPUT);
-
   sensorRelay.setLocalName("Sensor Relay");
-  sensorRelay.setAdvertisedServiceUuid(sensorData.uuid());
+  sensorRelay.setAdvertisedServiceUuid(sensorDataService.uuid());
+  sensorRelay.addAttribute(sensorDataService);
+  sensorRelay.addAttribute(etheneTrans);
+  etheneTrans.setValue(999);//This should set the etheneTrans characteristic to the value that will be transmitted, but this is not working
   Serial.print("Current UUID : ");
-  Serial.println(sensorData.uuid());
-  sensorRelay.begin();
+  Serial.println(sensorDataService.uuid());
+  sensorRelay.begin();//Start BLE
 }
 
 void loop() {
   //Constantly Repeating Loop
   BLECentral hub = sensorRelay.central();
-  if(hub){//Connection Squence
+  if(hub.connected()){//Connection Squence
     digitalWrite(indicatorPin, HIGH);
     Serial.print("Connected to : ");
     Serial.println(hub.address());
     while(hub.connected()){
       //Scan sensor and send back to hub
       int etheneData;
-      etheneData = analogRead(sensorPin);
-      //etheneData = getEtheneLevel();
+      etheneData = analogRead(sensorPin);//Read Ethene Level
       updateHub(etheneData);
     }
   }
+  else{
+    digitalWrite(indicatorPin, LOW);
+  }
 }
-
-
-/* This is not exactly needed
-int getEtheneLevel(){
-  //Connects to the analog ethene sensor
-  int etheneLevel = 9999;
-  etheneLevel = analogRead(sensorPin); //checking the analog reading
-  return etheneLevel;
-}
-*/
 
 void updateHub(int EDV){
   //Send data back to the hub via BLE
   int etheneAttributeData;
   etheneAttributeData = EDV;
-  //actually update the hub
+  etheneTrans.setValue(etheneAttributeData);//Should update the etheneTrans characteristic with a new int value
   Serial.print("Sent Ethene Data To Hub : ");
   Serial.println(etheneAttributeData);
 }
