@@ -16,7 +16,9 @@ public class ZenSense {
 
     public static Date d = new Date();
     public static String FILEPATH;
-    public static final int NUMSENSORS = 5;
+    public static final int NUMSENSORS = 6;
+    public static final int NUMHORIZONTAL = 2;
+    public static final int NUMVERTICAL = 3;
     public static final int RIPEVOLTAGE = 5;
     public static final int GRIDSIZE = 500;
     public static Date dataDate;
@@ -35,8 +37,16 @@ public class ZenSense {
         d = new Date();
         //Time, Voltage, Battery, Xpos%, Ypos%, SensorID
         double[] fakedata;
-        for(int i = 0;i<5;i++){
-            fakedata = new double[] {d.getTime(),Math.random()*5,Math.random()*100,Math.random()*100,Math.random()*100,i};
+        double[][] positions = new double[NUMSENSORS][2];
+        for(int i = 0;i<NUMSENSORS;i++){
+            for(int j = 0;j<2;j++){
+                positions[i][0] = i%NUMHORIZONTAL*(100/NUMHORIZONTAL)+25;
+                positions[i][1] = i%NUMVERTICAL*(100/NUMVERTICAL)+18;
+            }
+        }
+        
+        for(int i = 0;i<NUMSENSORS;i++){
+            fakedata = new double[] {d.getTime(),Math.random()*5,Math.random()*100,positions[i][0],positions[i][1],i};
             
             writeFile(fakedata,d.getTime());
         }
