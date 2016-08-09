@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
-public class Control
+public class Control extends JPanel
 {
   static JFrame frame;
   static int HISTORICINDEX = 0; 
@@ -18,21 +18,11 @@ public class Control
   static JLabel sensorBatteryLabel;
   
   
-  public static void main(String[] args)
-  {
-    // schedule this for the event dispatch thread (edt)
-    SwingUtilities.invokeLater(new Runnable()
-    {
-      public void run()
-      {
-        displayJFrame();
-      }
-    });
-  }
   
-  static void displayJFrame()
+  
+  public Control()
   {
-    frame = new JFrame("Control Panel");
+    //frame = new JFrame("Control Panel");
 
     // create our jbutton
     JButton previous = new JButton("Previous");
@@ -52,7 +42,7 @@ public class Control
           try {
               refreshAll();
           } catch (Exception ex) {
-              JOptionPane.showMessageDialog(frame, "no data for this time period");
+              JOptionPane.showMessageDialog(Control.this, "no data for this time period");
               HISTORICINDEX--;
               try {
                   refreshAll();
@@ -70,7 +60,8 @@ public class Control
           try {
               refreshAll();
           } catch (Exception ex) {
-              JOptionPane.showMessageDialog(frame, "no data for this time period");
+              
+              JOptionPane.showMessageDialog(Control.this, "no data for this time period");
               HISTORICINDEX++;
               try {
                   refreshAll();
@@ -81,20 +72,20 @@ public class Control
       }
     });
     // put the button on the frame
-    frame.getContentPane().setLayout(new FlowLayout());
-    frame.add(previous);
-    frame.add(next);
-    frame.add(datelabel);
-    frame.add(sensorIDLabel);
-    frame.add(sensorVoltageLabel);
-    frame.add(sensorBatteryLabel);
+    this.setLayout(new FlowLayout());
+    this.add(previous);
+    this.add(next);
+    this.add(datelabel);
+    this.add(sensorIDLabel);
+    this.add(sensorVoltageLabel);
+    this.add(sensorBatteryLabel);
 
     // set up the jframe, then display it
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.setPreferredSize(new Dimension(300, 200));
-    frame.pack();
-    frame.setLocationRelativeTo(null);
-    frame.setVisible(true);
+    //this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    this.setPreferredSize(new Dimension(300, 200));
+    //this.pack();
+    //this.setLocationRelativeTo(null);
+    this.setVisible(true);
   }
   
   static void refreshAll() throws IOException{

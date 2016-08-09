@@ -42,9 +42,7 @@ public class ZenSense {
         }
         
         SensorLevels.main(args);
-        HeatMapFrame.main(args);
-        Control.main(args);
-        
+        HeatMapFrame.main(args);        
         
     }
     

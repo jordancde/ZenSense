@@ -45,8 +45,13 @@ class HeatMapFrame extends JFrame
 
         panel.setDrawXTicks(drawTitles);
         panel.setDrawYTicks(drawTitles);
-
-        this.getContentPane().add(panel);
+        Control control = new Control();
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
+                true, panel, control);
+        splitPane.setResizeWeight(0.8);
+        splitPane.setOneTouchExpandable(true);
+        getContentPane().add(splitPane);
+        
         
     }
     public void mouseClicked(final MouseEvent evt) {
