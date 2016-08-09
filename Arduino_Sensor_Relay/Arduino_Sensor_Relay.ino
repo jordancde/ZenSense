@@ -25,8 +25,8 @@
 const int indicatorPin = 13;
 const int sensorPin = A0;
 BLEPeripheral sensorRelay;
-BLEService sensorDataService("f348dd41-c9e9-46fa-8542-621dd90ffb1c");//This uses a random UUID
-BLECharacteristic etheneTrans("f348dd41-c9e9-46fa-8542-621dd90ffb1c", BLERead | BLENotify, 10);//I don't know what is going on here, this code is a modified version of an example
+BLEService sensorDataService("19B10001-E8F2-537E-4F6C-D104768A1214");//This uses a random UUID
+BLEUnsignedCharCharacteristic etheneTrans("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLENotify);//I don't know what is going on here, this code is a modified version of an example
 
 void setup() {
   //Constructor
@@ -35,7 +35,7 @@ void setup() {
   sensorRelay.setAdvertisedServiceUuid(sensorDataService.uuid());
   sensorRelay.addAttribute(sensorDataService);
   sensorRelay.addAttribute(etheneTrans);
-  etheneTrans.setValue(999);//This should set the etheneTrans characteristic to the value that will be transmitted, but this is not working
+  etheneTrans.setValue(2000);//This sets the default transmited data to 2000 (actual values can be from 0 to 1023
   Serial.print("Current UUID : ");
   Serial.println(sensorDataService.uuid());
   sensorRelay.begin();//Start BLE
