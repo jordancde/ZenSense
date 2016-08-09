@@ -26,11 +26,18 @@ public class Control extends JPanel
 
     // create our jbutton
     JButton previous = new JButton("Previous");
+    previous.setAlignmentX(Component.RIGHT_ALIGNMENT);
     JButton next = new JButton("Next");
+    next.setAlignmentX(Component.LEFT_ALIGNMENT);
+    next.setAlignmentY(Component.TOP_ALIGNMENT);
     datelabel = new JLabel(ZenSense.dataDate.toString());
+    datelabel.setAlignmentX(Component.CENTER_ALIGNMENT);
     sensorIDLabel = new JLabel("Click a sensor for information");
+    sensorIDLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
     sensorVoltageLabel = new JLabel("");
+    sensorVoltageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
     sensorBatteryLabel = new JLabel("");
+    sensorBatteryLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
    
     
     // add the listener to the jbutton to handle the "pressed" event
@@ -72,14 +79,19 @@ public class Control extends JPanel
       }
     });
     // put the button on the frame
-    this.setLayout(new FlowLayout());
-    this.add(previous);
-    this.add(next);
+    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    
+    JPanel buttons = new JPanel();
+    buttons.setLayout(new FlowLayout(FlowLayout.CENTER));
+    
+    buttons.add(previous);
+    buttons.add(next);
+    
     this.add(datelabel);
     this.add(sensorIDLabel);
     this.add(sensorVoltageLabel);
     this.add(sensorBatteryLabel);
-
+    this.add(buttons);
     // set up the jframe, then display it
     //this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.setPreferredSize(new Dimension(300, 200));
