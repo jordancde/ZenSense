@@ -8,6 +8,7 @@ import zensense.ZenSense;
 class HeatMapFrame extends JFrame
 {
     static HeatMap panel;
+    public static GridMap gridMap;
 
     public HeatMapFrame() throws Exception
     {
@@ -46,9 +47,9 @@ class HeatMapFrame extends JFrame
         panel.setDrawXTicks(drawTitles);
         panel.setDrawYTicks(drawTitles);
         Control control = new Control();
-        
+        gridMap = new GridMap();
         JSplitPane splitPaneMain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
-                true, panel, new GridMap());
+                true, panel, gridMap);
         JSplitPane splitPaneControl = new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
                 true, splitPaneMain, control);
         splitPaneMain.setResizeWeight(0.5);
