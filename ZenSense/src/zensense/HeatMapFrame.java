@@ -60,13 +60,7 @@ class HeatMapFrame extends JFrame
         
         
     }
-    public void mouseClicked(final MouseEvent evt) {
-        final Point pos = evt.getPoint();
-        final int x = pos.x;
-        final int y = pos.y;
-        System.out.println(x+" "+y);
-    }
-    // this function will be run from the EDT
+    
 
     private static void createAndShowGUI() throws Exception
     {

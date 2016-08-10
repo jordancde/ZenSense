@@ -98,7 +98,7 @@ public class HeatMap extends JPanel
 
     private BufferedImage bufferedImage;
     private Graphics2D bufferedGraphics;
-    private ArrayList<String[]> sensorData;
+    public static ArrayList<String[]> sensorData;
     public int width;
     public int height;
     public double mouseX;

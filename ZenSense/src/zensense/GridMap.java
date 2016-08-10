@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,15 +22,35 @@ import static zensense.ZenSense.NUMSENSORS;
 
 
 public class GridMap extends JPanel {
-    
+    public double mouseX;
+    public double mouseY;
+    public double WIDTH;
+    public double HEIGHT;
     public GridMap() throws IOException{
         
 
         
-        
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseX=e.getX()*100/WIDTH;
+                mouseY=e.getY()*100/HEIGHT;
+                updateSensorData();
+            }
+        });
         this.setVisible(true);
         
     }
+    
+    public void updateSensorData(){
+        for(int i = 0;i<ZenSense.NUMSENSORS;i++){
+            if(Math.abs(Double.parseDouble(HeatMap.sensorData.get(HeatMap.sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])-mouseX)<=21&&(Math.abs(Double.parseDouble(HeatMap.sensorData.get(HeatMap.sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])-mouseY)<=21)){
+                Control.displaySensor(HeatMap.sensorData.get(HeatMap.sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX));
+                break;
+            }
+        }
+    }
+    
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
@@ -38,7 +60,8 @@ public class GridMap extends JPanel {
         } catch (IOException ex) {
             Logger.getLogger(GridMap.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        WIDTH = this.getWidth();
+        HEIGHT = this.getHeight();
         
         ArrayList<String[]> sensorData = new ArrayList<String[]>();
         try {
