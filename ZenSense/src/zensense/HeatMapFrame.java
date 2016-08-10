@@ -53,10 +53,12 @@ class HeatMapFrame extends JFrame
         JSplitPane splitPaneControl = new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
                 true, splitPaneMain, control);
         splitPaneMain.setResizeWeight(0.5);
-       
-       
         splitPaneControl.setResizeWeight(0.8);
-        getContentPane().add(splitPaneControl);
+        
+        JSplitPane splitPaneBar = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
+                true, splitPaneControl, new SensorBars());
+        splitPaneBar.setResizeWeight(0.8);
+        getContentPane().add(splitPaneBar);
         
         
     }
