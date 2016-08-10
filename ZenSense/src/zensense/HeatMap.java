@@ -615,9 +615,9 @@ public class HeatMap extends JPanel
         g2d.drawRect(30, 30, width - 60, height - 60);
         
         g2d.setColor(Color.red);
+        
         for(int i = 0;i<ZenSense.NUMSENSORS;i++){
             g2d.fillOval((int) ((width-60)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)+20, (int) ((height-60)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100)+20, 20, 20);
-        
         }
         g2d.setColor(fg);
         

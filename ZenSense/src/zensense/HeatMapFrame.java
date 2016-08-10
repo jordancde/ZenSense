@@ -12,7 +12,7 @@ class HeatMapFrame extends JFrame
     public HeatMapFrame() throws Exception
     {
 
-        super("Heat Map");
+        super("ZenSense");
         double[][] data = ZenSense.generateHeatMapData(0);
         
         
@@ -45,8 +45,18 @@ class HeatMapFrame extends JFrame
 
         panel.setDrawXTicks(drawTitles);
         panel.setDrawYTicks(drawTitles);
-
-        this.getContentPane().add(panel);
+        Control control = new Control();
+        
+        JSplitPane splitPaneMain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
+                true, panel, new GridMap());
+        JSplitPane splitPaneControl = new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
+                true, splitPaneMain, control);
+        splitPaneMain.setResizeWeight(0.5);
+       
+       
+        splitPaneControl.setResizeWeight(0.8);
+        getContentPane().add(splitPaneControl);
+        
         
     }
     public void mouseClicked(final MouseEvent evt) {
