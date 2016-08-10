@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
@@ -58,9 +59,7 @@ public class ZenSense {
     
     public static double[] pullData(){
         double[] ethaneData = new double[NUMSENSORS];
-        //BLAHBLAHBLAH;
-        //PULLING DATA FROM TRANSMISSION;
-        //ethaneData = NUMBERSANDSHIT;
+        
         return ethaneData;
     }
     
