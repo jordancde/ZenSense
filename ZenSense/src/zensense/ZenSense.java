@@ -22,6 +22,7 @@ public class ZenSense {
     public static final int NUMVERTICAL = 3;
     public static final int RIPEVOLTAGE = 5;
     public static final int GRIDSIZE = 500;
+    public static final int RIPEDAYS = 21;
     public static Date dataDate;
     
 

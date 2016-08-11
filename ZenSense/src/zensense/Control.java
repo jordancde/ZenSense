@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import static zensense.ZenSense.NUMSENSORS;
+import static zensense.ZenSense.RIPEDAYS;
+import static zensense.ZenSense.RIPEVOLTAGE;
 
 public class Control extends JPanel
 {
@@ -16,6 +19,7 @@ public class Control extends JPanel
   static JLabel sensorIDLabel;
   static JLabel sensorVoltageLabel;
   static JLabel sensorBatteryLabel;
+  static JLabel sensorDaysUntil;
   
   
   
@@ -38,8 +42,8 @@ public class Control extends JPanel
     sensorVoltageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
     sensorBatteryLabel = new JLabel("");
     sensorBatteryLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-   
-    
+    sensorDaysUntil = new JLabel("");
+    sensorDaysUntil.setAlignmentX(Component.CENTER_ALIGNMENT);
     // add the listener to the jbutton to handle the "pressed" event
     previous.addActionListener(new ActionListener()
     {
@@ -91,6 +95,8 @@ public class Control extends JPanel
     this.add(sensorIDLabel);
     this.add(sensorVoltageLabel);
     this.add(sensorBatteryLabel);
+    this.add(sensorBatteryLabel);
+    this.add(sensorDaysUntil);
     this.add(buttons);
     // set up the jframe, then display it
     //this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -108,7 +114,8 @@ public class Control extends JPanel
       HeatMapFrame.gridMap.repaint();
       sensorIDLabel.setText("Click a sensor for information");
       sensorVoltageLabel.setText("");
-      sensorBatteryLabel.setText("");        
+      sensorBatteryLabel.setText(""); 
+      sensorDaysUntil.setText("");  
   }
   
   //Time, Voltage, Battery, Xpos%, Ypos%, SensorID
@@ -116,6 +123,7 @@ public class Control extends JPanel
       sensorIDLabel.setText("Sensor ID: #"+(int)Double.parseDouble(sensorData[5]));
       sensorVoltageLabel.setText("Voltage: "+Math.round(Double.parseDouble(sensorData[1])*1000)/1000+"/"+ZenSense.RIPEVOLTAGE+"V");
       sensorBatteryLabel.setText("Battery Level: "+Math.round(Double.parseDouble(sensorData[2])*100)/100+"%");
+      sensorDaysUntil.setText((RIPEDAYS-Math.round(RIPEDAYS*Double.parseDouble(sensorData[1])/RIPEVOLTAGE)+" Days Left"));
   }
   
   

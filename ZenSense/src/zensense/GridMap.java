@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import static zensense.Control.HISTORICINDEX;
 import static zensense.ZenSense.NUMSENSORS;
+import static zensense.ZenSense.RIPEDAYS;
+import static zensense.ZenSense.RIPEVOLTAGE;
 
 
 public class GridMap extends JPanel {
@@ -74,6 +76,8 @@ public class GridMap extends JPanel {
         for(int i = 0;i<ZenSense.NUMSENSORS;i++){            
             g.setColor(getColor(0,ZenSense.RIPEVOLTAGE,Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[1])));
             g.fillRect((int)(this.getWidth()*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)-this.getWidth()/(ZenSense.NUMHORIZONTAL*2), (int)(this.getHeight()*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100)-this.getHeight()/(ZenSense.NUMVERTICAL*2), this.getWidth()/ZenSense.NUMHORIZONTAL, this.getHeight()/ZenSense.NUMVERTICAL);
+            g.setColor(Color.BLACK);
+            g.drawString((RIPEDAYS-Math.round(RIPEDAYS*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[1])/RIPEVOLTAGE)+" Days Left"), (int)(this.getWidth()*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)-this.getWidth()/(ZenSense.NUMHORIZONTAL*4), (int)(this.getHeight()*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100));
         }
         
     }
