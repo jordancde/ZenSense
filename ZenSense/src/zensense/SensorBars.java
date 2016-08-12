@@ -35,8 +35,9 @@ public class SensorBars extends JPanel {
   public ArrayList<String[]> sensorData;
   
   public int dataIndex;
-
-  public SensorBars(int dataToDisplay, String title) {
+  public int maxValue;
+  
+  public SensorBars(int dataToDisplay, String title, int maxValue) {
      dataIndex = dataToDisplay;
     sensorData = new ArrayList<String[]>();
     try {
@@ -48,6 +49,7 @@ public class SensorBars extends JPanel {
     names = new String[NUMSENSORS];
     values = new double[NUMSENSORS];
     this.title = title;
+    this.maxValue = maxValue;
     
   }
 
@@ -61,14 +63,8 @@ public class SensorBars extends JPanel {
     if (values == null || values.length == 0)
       return;
     double minValue = 0;
-    double maxValue = 0;
-    for (int i = 0; i < values.length; i++) {
-      if (minValue > values[i])
-        minValue = values[i];
-      if (maxValue < values[i])
-        maxValue = values[i];
-    }
-
+    
+    
     Dimension d = getSize();
     int clientWidth = d.width;
     int clientHeight = d.height;

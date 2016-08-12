@@ -51,8 +51,8 @@ class HeatMapFrame extends JFrame
         panel.setDrawYTicks(drawTitles);
         Control control = new Control();
         gridMap = new GridMap();
-        batteryBars = new SensorBars(2,"Battery");
-        ripenessBars = new SensorBars(1,"Ripeness");
+        batteryBars = new SensorBars(2,"Battery",100);
+        ripenessBars = new SensorBars(1,"Ripeness",5);
         JSplitPane splitPaneMain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
                 true, panel, gridMap);
         JSplitPane barCharts = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
