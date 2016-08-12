@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import zensense.ZenSense;
+import static zensense.ZenSense.GRIDSIZE;
 
 class HeatMapFrame extends JFrame
 {
@@ -66,7 +67,7 @@ class HeatMapFrame extends JFrame
 
         HeatMapFrame hmf = new HeatMapFrame();
         hmf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        hmf.setSize(500,500);
+        hmf.setSize(GRIDSIZE,GRIDSIZE);
         hmf.setVisible(true);
 
     }

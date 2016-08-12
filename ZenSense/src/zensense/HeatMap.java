@@ -129,8 +129,8 @@ public class HeatMap extends JPanel
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                mouseX=(e.getX()-30)*100/(width-60);
-                mouseY=(e.getY()-30)*100/(height-60);
+                mouseX=(e.getX())*100/(width);
+                mouseY=(e.getY())*100/(height);
                 updateSensorData();
             }
         });
@@ -597,9 +597,9 @@ public class HeatMap extends JPanel
         // is very fast, and is much faster than the previous version, which 
         // redrew the data plot each time we had to repaint the screen.
         g2d.drawImage(bufferedImage,
-                      31, 31,
-                      width - 30,
-                      height - 30,
+                      0, 0,
+                      width,
+                      height,
                       0, 0,
                       bufferedImage.getWidth(), bufferedImage.getHeight(),
                       null);
@@ -610,14 +610,12 @@ public class HeatMap extends JPanel
             Logger.getLogger(HeatMap.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // border
-        g2d.setColor(fg);
-        g2d.drawRect(30, 30, width - 60, height - 60);
+        
         
         g2d.setColor(Color.red);
         
         for(int i = 0;i<ZenSense.NUMSENSORS;i++){
-            g2d.fillOval((int) ((width-60)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)+20, (int) ((height-60)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100)+20, 20, 20);
+            g2d.fillOval((int) ((width)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)-10, (int) ((height)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100)-10, 20, 20);
         }
         g2d.setColor(fg);
         
