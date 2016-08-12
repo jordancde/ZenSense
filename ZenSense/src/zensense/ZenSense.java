@@ -24,6 +24,8 @@ public class ZenSense {
     public static final int GRIDSIZE = 500;
     public static final int RIPEDAYS = 21;
     public static Date dataDate;
+    public static String[] selectedSensor;
+    public static HeatMapFrame hm;
     
 
     
@@ -53,7 +55,7 @@ public class ZenSense {
             writeFile(fakedata,d.getTime());
         }
         
-        
+        hm = new HeatMapFrame();
         HeatMapFrame.main(args);        
         
     }

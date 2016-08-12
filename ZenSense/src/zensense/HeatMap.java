@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import static zensense.Control.HISTORICINDEX;
 import static zensense.ZenSense.NUMSENSORS;
+import static zensense.ZenSense.selectedSensor;
 
 /**
  *
@@ -140,6 +141,8 @@ public class HeatMap extends JPanel
         for(int i = 0;i<ZenSense.NUMSENSORS;i++){
             if(Math.abs(Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])-mouseX)<=3&&(Math.abs(Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])-mouseY)<=3)){
                 Control.displaySensor(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX));
+                ZenSense.selectedSensor = sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX);
+                this.repaint();
                 break;
             }
         }
@@ -615,7 +618,12 @@ public class HeatMap extends JPanel
         g2d.setColor(Color.red);
         
         for(int i = 0;i<ZenSense.NUMSENSORS;i++){
+            if(selectedSensor!=null&&Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[5])==Double.parseDouble(selectedSensor[5])){
+                g2d.setColor(new Color(0,153,255));
+            }
             g2d.fillOval((int) ((width)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)-10, (int) ((height)*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100)-10, 20, 20);
+            
+            g2d.setColor(Color.red);
         }
         g2d.setColor(fg);
         

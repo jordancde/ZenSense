@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import static zensense.Control.HISTORICINDEX;
+import static zensense.HeatMap.sensorData;
 import static zensense.ZenSense.NUMHORIZONTAL;
 import static zensense.ZenSense.NUMSENSORS;
 import static zensense.ZenSense.RIPEDAYS;
@@ -49,6 +50,8 @@ public class GridMap extends JPanel {
         for(int i = 0;i<ZenSense.NUMSENSORS;i++){
             if(Math.abs(Double.parseDouble(HeatMap.sensorData.get(HeatMap.sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])-mouseX)<=21&&(Math.abs(Double.parseDouble(HeatMap.sensorData.get(HeatMap.sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])-mouseY)<=21)){
                 Control.displaySensor(HeatMap.sensorData.get(HeatMap.sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX));
+                ZenSense.selectedSensor = sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX);
+                ZenSense.hm.panel.repaint();
                 break;
             }
         }
