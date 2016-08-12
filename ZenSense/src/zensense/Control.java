@@ -109,7 +109,6 @@ public class Control extends JPanel
   static void refreshAll() throws IOException{
       datelabel.setText("Loading...");
       HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
-      SensorLevels.refreshData(HISTORICINDEX);
       datelabel.setText(ZenSense.dataDate.toString());
       HeatMapFrame.gridMap.repaint();
       sensorIDLabel.setText("Click a sensor for information");

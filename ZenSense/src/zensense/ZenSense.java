@@ -53,7 +53,7 @@ public class ZenSense {
             writeFile(fakedata,d.getTime());
         }
         
-        SensorLevels.main(args);
+        
         HeatMapFrame.main(args);        
         
     }
