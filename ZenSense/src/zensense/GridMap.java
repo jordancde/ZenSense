@@ -52,6 +52,8 @@ public class GridMap extends JPanel {
                 Control.displaySensor(HeatMap.sensorData.get(HeatMap.sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX));
                 ZenSense.selectedSensor = sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX);
                 ZenSense.hm.panel.repaint();
+                ZenSense.hm.batteryBars.repaint();
+                ZenSense.hm.ripenessBars.repaint();
                 break;
             }
         }

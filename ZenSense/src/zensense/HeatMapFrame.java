@@ -10,6 +10,8 @@ class HeatMapFrame extends JFrame
 {
     static HeatMap panel;
     public static GridMap gridMap;
+    public static SensorBars batteryBars;
+    public static SensorBars ripenessBars;
 
     public HeatMapFrame() throws Exception
     {
@@ -49,13 +51,21 @@ class HeatMapFrame extends JFrame
         panel.setDrawYTicks(drawTitles);
         Control control = new Control();
         gridMap = new GridMap();
+        batteryBars = new SensorBars(2,"Battery");
+        ripenessBars = new SensorBars(1,"Ripeness");
         JSplitPane splitPaneMain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
                 true, panel, gridMap);
+        JSplitPane barCharts = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
+                true, ripenessBars, batteryBars);
+        JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
+                true, splitPaneMain, barCharts);
         JSplitPane splitPaneControl = new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
-                true, splitPaneMain, control);
+                true, splitPane2, control);
+        barCharts.setResizeWeight(0.5);
+        splitPane2.setResizeWeight(0.8);
         splitPaneMain.setResizeWeight(0.5);
         splitPaneControl.setResizeWeight(0.8);
-        
+       
         getContentPane().add(splitPaneControl);
         
         

@@ -50,7 +50,7 @@ public class ZenSense {
         }
         
         for(int i = 0;i<NUMSENSORS;i++){
-            fakedata = new double[] {d.getTime(),Math.random()*5,Math.random()*100,positions[i][0],positions[i][1],i};
+            fakedata = new double[] {d.getTime(),Math.random()*5,Math.random()*100,positions[i][0],positions[i][1],NUMSENSORS-i};
             
             writeFile(fakedata,d.getTime());
         }

@@ -142,6 +142,8 @@ public class HeatMap extends JPanel
             if(Math.abs(Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])-mouseX)<=3&&(Math.abs(Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])-mouseY)<=3)){
                 Control.displaySensor(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX));
                 ZenSense.selectedSensor = sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX);
+                ZenSense.hm.batteryBars.repaint();
+                ZenSense.hm.ripenessBars.repaint();
                 this.repaint();
                 break;
             }

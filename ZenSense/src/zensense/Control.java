@@ -111,6 +111,9 @@ public class Control extends JPanel
       HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
       datelabel.setText(ZenSense.dataDate.toString());
       HeatMapFrame.gridMap.repaint();
+      HeatMapFrame.batteryBars.repaint();
+      HeatMapFrame.ripenessBars.repaint();
+      ZenSense.selectedSensor = null;
       sensorIDLabel.setText("Click a sensor for information");
       sensorVoltageLabel.setText("");
       sensorBatteryLabel.setText(""); 
