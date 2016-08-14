@@ -72,11 +72,7 @@ public class GridMap extends JPanel {
         HEIGHT = this.getHeight();
         
         ArrayList<String[]> sensorData = new ArrayList<String[]>();
-        try {
-            sensorData = ZenSense.readFile();
-        } catch (IOException ex) {
-            Logger.getLogger(HeatMap.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        sensorData = ZenSense.fileData;
         //Time, Voltage, Battery, Xpos%, Ypos%, SensorID
         int windowHeight = (int)(this.getHeight()+this.getHeight()*.01);
         for(int i = 0;i<ZenSense.NUMSENSORS;i++){            

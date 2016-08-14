@@ -26,6 +26,7 @@ public class ZenSense {
     public static Date dataDate;
     public static String[] selectedSensor;
     public static HeatMapFrame hm;
+    public static ArrayList<String[]> fileData;
     
 
     
@@ -38,6 +39,14 @@ public class ZenSense {
         }
         
         
+        refreshData();
+        
+        hm = new HeatMapFrame();
+        HeatMapFrame.main(args);        
+        
+    }
+    
+    public static void refreshData() throws IOException{
         d = new Date();
         //Time, Voltage, Battery, Xpos%, Ypos%, SensorID
         double[] fakedata;
@@ -54,10 +63,7 @@ public class ZenSense {
             
             writeFile(fakedata,d.getTime());
         }
-        
-        hm = new HeatMapFrame();
-        HeatMapFrame.main(args);        
-        
+        readFile();
     }
     
     public static double[] pullData(){
@@ -88,7 +94,7 @@ public class ZenSense {
     
     }
     
-    public static ArrayList<String[]> readFile() throws IOException{
+    public static void readFile() throws IOException{
         
         String line = "";
         String cvsSplitBy = ",";
@@ -107,7 +113,7 @@ public class ZenSense {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return historicalData;
+        fileData = historicalData;
     }
     //historicIndex is how far back requested, 0 is most current
     public static double[][] generateHeatMapData(int historicIndex) throws IOException{
@@ -118,7 +124,7 @@ public class ZenSense {
             }
         }
         ArrayList<String[]> previousCheck = new ArrayList<String[]>();
-        ArrayList<String[]> rawData = readFile();
+        ArrayList<String[]> rawData = fileData;
         dataDate = new Date(Long.parseLong(rawData.get(rawData.size()-1-NUMSENSORS*historicIndex)[0]));
         
         for(int i = 0;i<NUMSENSORS;i++){

@@ -39,12 +39,8 @@ public class SensorBars extends JPanel {
   
   public SensorBars(int dataToDisplay, String title, int maxValue) {
      dataIndex = dataToDisplay;
-    sensorData = new ArrayList<String[]>();
-    try {
-        sensorData = ZenSense.readFile();
-    } catch (IOException ex) {
-        Logger.getLogger(HeatMap.class.getName()).log(Level.SEVERE, null, ex);
-    }
+   
+    sensorData = ZenSense.fileData;
     //Time, Voltage, Battery, Xpos%, Ypos%, SensorID
     names = new String[NUMSENSORS];
     values = new double[NUMSENSORS];
@@ -55,6 +51,7 @@ public class SensorBars extends JPanel {
 
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
+    sensorData = ZenSense.fileData;
     for(int i = 0;i<ZenSense.NUMSENSORS;i++){            
         names[i] = sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[5];
         values[i] = Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[dataIndex]);

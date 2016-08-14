@@ -609,11 +609,7 @@ public class HeatMap extends JPanel
                       bufferedImage.getWidth(), bufferedImage.getHeight(),
                       null);
         sensorData = new ArrayList<String[]>();
-        try {
-            sensorData = ZenSense.readFile();
-        } catch (IOException ex) {
-            Logger.getLogger(HeatMap.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        sensorData = ZenSense.fileData;
 
         
         

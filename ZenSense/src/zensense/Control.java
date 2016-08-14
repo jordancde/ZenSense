@@ -32,6 +32,7 @@ public class Control extends JPanel
     JButton previous = new JButton("Previous");
     previous.setAlignmentX(Component.RIGHT_ALIGNMENT);
     JButton next = new JButton("Next");
+    JButton pullDataButton = new JButton("Refresh");
     next.setAlignmentX(Component.LEFT_ALIGNMENT);
     next.setAlignmentY(Component.TOP_ALIGNMENT);
     datelabel = new JLabel(ZenSense.dataDate.toString());
@@ -54,7 +55,7 @@ public class Control extends JPanel
               refreshAll();
           } catch (Exception ex) {
               JOptionPane.showMessageDialog(Control.this, "no data for this time period");
-              HISTORICINDEX--;
+              HISTORICINDEX++;
               try {
                   refreshAll();
               } catch (Exception ex1) {
@@ -82,6 +83,25 @@ public class Control extends JPanel
           }
       }
     });
+    pullDataButton.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+          HISTORICINDEX = 0;
+          try {
+              ZenSense.refreshData();
+              refreshAll();
+              
+          } catch (Exception ex) {
+              try {
+                  ZenSense.refreshData();
+                  refreshAll();
+              } catch (Exception ex1) {
+                  Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex1);
+              }
+          }
+      }
+    });
     // put the button on the frame
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     
@@ -89,6 +109,7 @@ public class Control extends JPanel
     buttons.setLayout(new FlowLayout(FlowLayout.CENTER));
     
     buttons.add(previous);
+    buttons.add(pullDataButton);
     buttons.add(next);
     
     this.add(datelabel);
@@ -107,6 +128,7 @@ public class Control extends JPanel
   }
   
   static void refreshAll() throws IOException{
+      
       datelabel.setText("Loading...");
       HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
       datelabel.setText(ZenSense.dataDate.toString());
