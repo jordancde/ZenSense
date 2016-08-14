@@ -11,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -22,6 +24,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import static zensense.Control.HISTORICINDEX;
+import static zensense.HeatMap.sensorData;
 import static zensense.ZenSense.NUMSENSORS;
 import static zensense.ZenSense.selectedSensor;
 
@@ -36,9 +39,23 @@ public class SensorBars extends JPanel {
   
   public int dataIndex;
   public int maxValue;
+  public double mouseX;
+  public double mouseY;
+  public int width;
+  public int height;
   
   public SensorBars(int dataToDisplay, String title, int maxValue) {
-     dataIndex = dataToDisplay;
+    
+    this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseX=e.getX()*100/width;
+                mouseY=e.getY()*100/height;
+                updateSensorData();
+            }
+        });  
+      
+    dataIndex = dataToDisplay;
    
     sensorData = ZenSense.fileData;
     //Time, Voltage, Battery, Xpos%, Ypos%, SensorID
@@ -48,9 +65,26 @@ public class SensorBars extends JPanel {
     this.maxValue = maxValue;
     
   }
-
+  public void updateSensorData(){
+      
+      int sensorID = (int)((mouseX/100)*NUMSENSORS)+1;
+      System.out.println(sensorID);
+        for(int i = 0;i<ZenSense.NUMSENSORS;i++){
+            
+            if(Double.parseDouble(HeatMap.sensorData.get(HeatMap.sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[5])==sensorID){
+                Control.displaySensor(HeatMap.sensorData.get(HeatMap.sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX));
+                ZenSense.selectedSensor = sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX);
+                ZenSense.hm.panel.repaint();
+                ZenSense.hm.batteryBars.repaint();
+                ZenSense.hm.ripenessBars.repaint();
+                break;
+            }
+        }
+    }
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
+    width = this.getWidth();
+    height = this.getHeight();
     sensorData = ZenSense.fileData;
     for(int i = 0;i<ZenSense.NUMSENSORS;i++){            
         names[i] = sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[5];
