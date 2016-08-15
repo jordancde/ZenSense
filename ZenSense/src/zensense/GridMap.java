@@ -23,6 +23,7 @@ import static zensense.ZenSense.NUMHORIZONTAL;
 import static zensense.ZenSense.NUMSENSORS;
 import static zensense.ZenSense.RIPEDAYS;
 import static zensense.ZenSense.RIPEVOLTAGE;
+import static zensense.ZenSense.selectedSensor;
 
 
 public class GridMap extends JPanel {
@@ -54,6 +55,7 @@ public class GridMap extends JPanel {
                 ZenSense.hm.panel.repaint();
                 ZenSense.hm.batteryBars.repaint();
                 ZenSense.hm.ripenessBars.repaint();
+                ZenSense.hm.gridMap.repaint();
                 break;
             }
         }
@@ -75,15 +77,23 @@ public class GridMap extends JPanel {
         sensorData = ZenSense.fileData;
         //Time, Voltage, Battery, Xpos%, Ypos%, SensorID
         int windowHeight = (int)(this.getHeight()+this.getHeight()*.01);
+        
         for(int i = 0;i<ZenSense.NUMSENSORS;i++){            
             g.setColor(getColor(0,ZenSense.RIPEVOLTAGE,Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[1])));
-            
             g.fillRect((int)(this.getWidth()*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)-this.getWidth()/(ZenSense.NUMHORIZONTAL*2), (int)((windowHeight*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100)-windowHeight/(ZenSense.NUMVERTICAL*2)-windowHeight*0.01), this.getWidth()/ZenSense.NUMHORIZONTAL, (int)(windowHeight/ZenSense.NUMVERTICAL));
-            
             g.setColor(Color.BLACK);
             g.drawString((RIPEDAYS-Math.round(RIPEDAYS*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[1])/RIPEVOLTAGE)+" Days Left"), (int)(this.getWidth()*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)-this.getWidth()/(ZenSense.NUMHORIZONTAL*4), (int)(this.getHeight()*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100));
         }
         
+        for(int i = 0;i<ZenSense.NUMSENSORS;i++){ 
+            if(selectedSensor!=null&&Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[5])==Double.parseDouble(selectedSensor[5])){
+                g.setColor(Color.BLUE);
+                java.awt.Graphics2D g2 = (java.awt.Graphics2D)g.create();
+                g2.setStroke(new java.awt.BasicStroke(3)); // thickness of 3.0f
+                g2.setColor(Color.blue);
+                g2.drawRect((int)(this.getWidth()*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])/100)-this.getWidth()/(ZenSense.NUMHORIZONTAL*2), (int)((windowHeight*Double.parseDouble(sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])/100)-windowHeight/(ZenSense.NUMVERTICAL*2)-windowHeight*0.01), this.getWidth()/ZenSense.NUMHORIZONTAL, (int)(windowHeight/ZenSense.NUMVERTICAL));
+            }
+        }
     }
     public Color getColor(double minimum, double maximum, double value){
         

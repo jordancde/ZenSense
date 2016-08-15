@@ -77,6 +77,7 @@ public class SensorBars extends JPanel {
                 ZenSense.hm.panel.repaint();
                 ZenSense.hm.batteryBars.repaint();
                 ZenSense.hm.ripenessBars.repaint();
+                ZenSense.hm.gridMap.repaint();
                 break;
             }
         }

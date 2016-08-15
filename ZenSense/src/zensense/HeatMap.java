@@ -144,6 +144,7 @@ public class HeatMap extends JPanel
                 ZenSense.selectedSensor = sensorData.get(sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX);
                 ZenSense.hm.batteryBars.repaint();
                 ZenSense.hm.ripenessBars.repaint();
+                ZenSense.hm.gridMap.repaint();
                 this.repaint();
                 break;
             }

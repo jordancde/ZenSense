@@ -26,6 +26,7 @@ public class ZenSense {
     public static Date dataDate;
     public static String[] selectedSensor;
     public static HeatMapFrame hm;
+
     public static ArrayList<String[]> fileData;
     
 
@@ -42,7 +43,8 @@ public class ZenSense {
         refreshData();
         
         hm = new HeatMapFrame();
-        HeatMapFrame.main(args);        
+        HeatMapFrame.main(args); 
+        
         
     }
     
