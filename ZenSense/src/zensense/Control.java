@@ -55,7 +55,7 @@ public class Control extends JPanel
               refreshAll();
           } catch (Exception ex) {
               JOptionPane.showMessageDialog(Control.this, "no data for this time period");
-              HISTORICINDEX++;
+              HISTORICINDEX--;
               try {
                   refreshAll();
               } catch (Exception ex1) {

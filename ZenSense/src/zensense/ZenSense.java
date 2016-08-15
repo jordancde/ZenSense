@@ -6,11 +6,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import static zensense.Control.HISTORICINDEX;
+
 
 
 public class ZenSense {
@@ -94,6 +95,22 @@ public class ZenSense {
             System.out.println("Something Fucked up");
         }
     
+    }
+
+   
+    
+    public void updateSensorData(double mouseX, double mouseY){
+        for(int i = 0;i<ZenSense.NUMSENSORS;i++){
+            if(Math.abs(Double.parseDouble(fileData.get(fileData.size()-i-1-NUMSENSORS*HISTORICINDEX)[3])-mouseX)<=3&&(Math.abs(Double.parseDouble(fileData.get(fileData.size()-i-1-NUMSENSORS*HISTORICINDEX)[4])-mouseY)<=3)){
+                Control.displaySensor(fileData.get(fileData.size()-i-1-NUMSENSORS*HISTORICINDEX));
+                selectedSensor = fileData.get(fileData.size()-i-1-NUMSENSORS*HISTORICINDEX);
+                hm.batteryBars.repaint();
+                hm.ripenessBars.repaint();
+                hm.gridMap.repaint();
+                hm.gridMap.repaint();
+                break;
+            }
+        }
     }
     
     public static void readFile() throws IOException{

@@ -68,7 +68,7 @@ public class SensorBars extends JPanel {
   public void updateSensorData(){
       
       int sensorID = (int)((mouseX/100)*NUMSENSORS)+1;
-      System.out.println(sensorID);
+      
         for(int i = 0;i<ZenSense.NUMSENSORS;i++){
             
             if(Double.parseDouble(HeatMap.sensorData.get(HeatMap.sensorData.size()-i-1-NUMSENSORS*HISTORICINDEX)[5])==sensorID){
