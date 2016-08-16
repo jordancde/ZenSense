@@ -26,7 +26,7 @@ const int indicatorPin = 13;
 const int sensorPin = A0;
 BLEPeripheral sensorRelay;
 BLEService sensorDataService("19B10001-E8F2-537E-4F6C-D104768A1214");//This uses a random UUID
-BLEUnsignedCharCharacteristic etheneTrans("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLENotify);//I don't know what is going on here, this code is a modified version of an example
+BLEUnsignedIntCharacteristic etheneTrans("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLENotify);//I don't know what is going on here, this code is a modified version of an example
 
 void setup() {
   //Constructor
