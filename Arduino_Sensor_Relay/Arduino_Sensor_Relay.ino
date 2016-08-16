@@ -3,8 +3,8 @@
  * 
  * August 2016
  * Isidor Ehrlich
- * ZENsense LLC
- * Develloped using libraries from Arduino LLC and Intel Corporation
+ * ZENsense Project
+ * Develloped using libraries and code samples from Arduino LLC and Intel Corporation
  */
 
 
@@ -26,7 +26,7 @@ const int indicatorPin = 13;
 const int sensorPin = A0;
 BLEPeripheral sensorRelay;
 BLEService sensorDataService("19B10001-E8F2-537E-4F6C-D104768A1214");//This uses a random UUID
-BLEUnsignedIntCharacteristic etheneTrans("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLENotify);//I don't know what is going on here, this code is a modified version of an example
+BLEUnsignedIntCharacteristic etheneTrans("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLENotify);//This code is a modified version of an online sample
 
 void setup() {
   //Constructor
