@@ -24,7 +24,9 @@ void setup() {
 
 void loop() {
  //Inifinite While Loop
+ digitalWrite(indicatorPin, HIGH);
  sensorValue = analogRead(sensorPin);
  Serial.println(sensorValue);
+ digitalWrite(indicatorPin, LOW);
  delay(1000);
 }
