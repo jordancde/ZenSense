@@ -147,7 +147,8 @@ public class Control extends JPanel
       sensorIDLabel.setText("Sensor ID: #"+(int)Double.parseDouble(sensorData[5]));
       sensorVoltageLabel.setText("Voltage: "+Math.round(Double.parseDouble(sensorData[1])*1000)/1000+"/"+ZenSense.RIPEVOLTAGE+"V");
       sensorBatteryLabel.setText("Battery Level: "+Math.round(Double.parseDouble(sensorData[2])*100)/100+"%");
-      sensorDaysUntil.setText((RIPEDAYS-Math.round(RIPEDAYS*Double.parseDouble(sensorData[1])/RIPEVOLTAGE)+" Days Left"));
+      sensorDaysUntil.setText((RIPEDAYS-Math.round(RIPEDAYS * Double.parseDouble(sensorData[1]) / RIPEVOLTAGE)+" Days Left"));
+ 
   }
   
   
