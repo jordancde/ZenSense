@@ -32,6 +32,7 @@ public class SerialTest implements SerialPortEventListener {
 	private static final int TIME_OUT = 2000;
 	/** Default bits per second for COM port. */
 	private static final int DATA_RATE = 9600;
+        public static String incoming = "0";
 
 	public void initialize() {
                 // the next line is for Raspberry Pi and 
@@ -97,7 +98,7 @@ public class SerialTest implements SerialPortEventListener {
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
 				String inputLine=input.readLine();
-				System.out.println(inputLine);
+				incoming = inputLine;
 			} catch (Exception e) {
 				System.err.println(e.toString());
 			}

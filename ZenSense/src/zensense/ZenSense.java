@@ -24,6 +24,7 @@ public class ZenSense {
     public static final int RIPEVOLTAGE = 5;
     public static final int GRIDSIZE = 500;
     public static final int RIPEDAYS = 7;
+    public static final int REALSENSORID = 3;
     public static Date dataDate;
     public static String[] selectedSensor;
     public static HeatMapFrame hm;
@@ -45,6 +46,7 @@ public class ZenSense {
         
         hm = new HeatMapFrame();
         HeatMapFrame.main(args); 
+        SerialTest.main(args);
         
         
     }
@@ -63,7 +65,9 @@ public class ZenSense {
         
         for(int i = 0;i<NUMSENSORS;i++){
             fakedata = new double[] {d.getTime(),Math.random()*5,Math.random()*100,positions[i][0],positions[i][1],NUMSENSORS-i};
-            
+            if(NUMSENSORS-i == REALSENSORID){
+                fakedata = new double[] {d.getTime(),Double.parseDouble(SerialTest.incoming),Math.random()*100,positions[i][0],positions[i][1],NUMSENSORS-i};
+            }
             writeFile(fakedata,d.getTime());
         }
         readFile();
