@@ -52,21 +52,37 @@ public class ZenSense {
     }
     
     public static void refreshData() throws IOException{
+        readFile();
         d = new Date();
         //Time, Voltage, Battery, Xpos%, Ypos%, SensorID
         double[] fakedata;
         double[][] positions = new double[NUMSENSORS][2];
+        
         for(int i = 0;i<NUMSENSORS;i++){
             for(int j = 0;j<2;j++){
                 positions[i][0] = i%NUMHORIZONTAL*(100/NUMHORIZONTAL)+25;
                 positions[i][1] = i%NUMVERTICAL*(100/NUMVERTICAL)+18;
             }
         }
-        
+        double prevRipeness;
+        double prevBattery;
         for(int i = 0;i<NUMSENSORS;i++){
-            fakedata = new double[] {d.getTime(),Math.random()*RIPEVOLTAGE,Math.random()*100,positions[i][0],positions[i][1],NUMSENSORS-i};
+            try{
+                //Temporary fix for unknown bug, senso 4 does not update for unknown reason
+                if(NUMSENSORS-i == 4){
+                    prevRipeness = Double.parseDouble(fileData.get(fileData.size()-3-i)[1])+Math.random()*RIPEVOLTAGE*1/RIPEDAYS;
+                }else{
+                    prevRipeness = Double.parseDouble(fileData.get(fileData.size()-1-i)[1])+Math.random()*RIPEVOLTAGE*1/RIPEDAYS;
+                }
+            }catch(Exception e){prevRipeness = 0;System.out.println("Error");}
+            try{
+                prevBattery = Double.parseDouble(fileData.get(fileData.size()-1-i)[2])-Math.random()*4;
+            }catch(Exception e){prevBattery = 100;}
+            if(prevRipeness>RIPEVOLTAGE){prevRipeness=RIPEVOLTAGE;}
+            if(prevBattery<0){prevBattery=0;}
+            fakedata = new double[] {d.getTime(),prevRipeness,prevBattery,positions[i][0],positions[i][1],NUMSENSORS-i};
             if(NUMSENSORS-i == REALSENSORID){
-                fakedata = new double[] {d.getTime(),Double.parseDouble(SerialTest.incoming),Math.random()*100,positions[i][0],positions[i][1],NUMSENSORS-i};
+                fakedata = new double[] {d.getTime(),Double.parseDouble(SerialTest.incoming),prevBattery,positions[i][0],positions[i][1],NUMSENSORS-i};
             }
             writeFile(fakedata,d.getTime());
         }
