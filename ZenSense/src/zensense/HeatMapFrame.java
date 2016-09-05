@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import zensense.ZenSense;
 import static zensense.ZenSense.GRIDSIZE;
+import static zensense.ZenSense.RIPEVOLTAGE;
 
 class HeatMapFrame extends JFrame
 {
@@ -52,7 +53,7 @@ class HeatMapFrame extends JFrame
         Control control = new Control();
         gridMap = new GridMap();
         batteryBars = new SensorBars(2,"Battery",100);
-        ripenessBars = new SensorBars(1,"Ripeness",5);
+        ripenessBars = new SensorBars(1,"Ripeness",RIPEVOLTAGE);
         JSplitPane splitPaneMain = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
                 true, panel, gridMap);
         JSplitPane barCharts = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 

@@ -21,7 +21,7 @@ public class ZenSense {
     public static final int NUMSENSORS = 6;
     public static final int NUMHORIZONTAL = 2;
     public static final int NUMVERTICAL = 3;
-    public static final int RIPEVOLTAGE = 5;
+    public static final int RIPEVOLTAGE = 1023;
     public static final int GRIDSIZE = 500;
     public static final int RIPEDAYS = 7;
     public static final int REALSENSORID = 3;
@@ -64,7 +64,7 @@ public class ZenSense {
         }
         
         for(int i = 0;i<NUMSENSORS;i++){
-            fakedata = new double[] {d.getTime(),Math.random()*5,Math.random()*100,positions[i][0],positions[i][1],NUMSENSORS-i};
+            fakedata = new double[] {d.getTime(),Math.random()*RIPEVOLTAGE,Math.random()*100,positions[i][0],positions[i][1],NUMSENSORS-i};
             if(NUMSENSORS-i == REALSENSORID){
                 fakedata = new double[] {d.getTime(),Double.parseDouble(SerialTest.incoming),Math.random()*100,positions[i][0],positions[i][1],NUMSENSORS-i};
             }
