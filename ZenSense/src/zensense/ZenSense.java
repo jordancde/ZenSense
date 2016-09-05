@@ -74,7 +74,7 @@ public class ZenSense {
                 }else{
                     prevRipeness = Double.parseDouble(fileData.get(fileData.size()-1-i)[1])+Math.random()*RIPEVOLTAGE*1/RIPEDAYS;
                 }
-            }catch(Exception e){prevRipeness = 0;System.out.println("Error");}
+            }catch(Exception e){prevRipeness = 0;}
             try{
                 prevBattery = Double.parseDouble(fileData.get(fileData.size()-1-i)[2])-Math.random()*4;
             }catch(Exception e){prevBattery = 100;}
