@@ -15,7 +15,7 @@ public class SerialTest implements SerialPortEventListener {
 	SerialPort serialPort;
         /** The port we're normally going to use. */
 	private static final String PORT_NAMES[] = { 
-			"/dev/tty.HC-05-DevB", // Mac OS X
+			"/dev/tty.usbmodem1421", // Mac OS X
                         "/dev/ttyACM0", // Raspberry Pi
 			"/dev/ttyUSB0", // Linux
 			"COM3", // Windows
@@ -99,6 +99,7 @@ public class SerialTest implements SerialPortEventListener {
 			try {
 				String inputLine=input.readLine();
 				incoming = inputLine;
+                                System.out.println(inputLine);
 			} catch (Exception e) {
 				System.err.println(e.toString());
 			}
