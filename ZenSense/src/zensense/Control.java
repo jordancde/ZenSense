@@ -33,6 +33,9 @@ public class Control extends JPanel
     previous.setAlignmentX(Component.RIGHT_ALIGNMENT);
     JButton next = new JButton("Next");
     JButton pullDataButton = new JButton("Refresh");
+    JButton reset = new JButton("Reset");
+    reset.setAlignmentX(Component.LEFT_ALIGNMENT);
+    reset.setAlignmentY(Component.TOP_ALIGNMENT);
     next.setAlignmentX(Component.LEFT_ALIGNMENT);
     next.setAlignmentY(Component.TOP_ALIGNMENT);
     datelabel = new JLabel(ZenSense.dataDate.toString());
@@ -64,6 +67,7 @@ public class Control extends JPanel
           }
       }
     });
+    
     next.addActionListener(new ActionListener()
     {
       public void actionPerformed(ActionEvent e)
@@ -102,6 +106,27 @@ public class Control extends JPanel
           }
       }
     });
+    reset.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+          HISTORICINDEX = 0;
+          try {
+              ZenSense.reset();
+              ZenSense.refreshData();
+              refreshAll();
+              
+          } catch (Exception ex) {
+              try {
+                  ZenSense.reset();
+                  ZenSense.refreshData();
+                  refreshAll();
+              } catch (Exception ex1) {
+                  Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex1);
+              }
+          }
+      }
+    });
     // put the button on the frame
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     
@@ -110,6 +135,7 @@ public class Control extends JPanel
     
     buttons.add(previous);
     buttons.add(pullDataButton);
+    buttons.add(reset);
     buttons.add(next);
     
     this.add(datelabel);

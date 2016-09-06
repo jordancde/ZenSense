@@ -51,6 +51,12 @@ public class ZenSense {
         
         
     }
+    public static void reset() throws IOException{
+        (new File(FILEPATH)).delete();
+        if(!(new File(FILEPATH).canRead())){
+            (new File(FILEPATH)).createNewFile();
+        }
+    }
     
     public static void refreshData() throws IOException{
         readFile();
