@@ -164,11 +164,16 @@ public class Control extends JPanel
       HeatMapFrame.ripenessBars.repaint();
       
       if(fullUpdate){
-        sensorIDLabel.setText("Click a sensor for information");
-        sensorVoltageLabel.setText("");
-        sensorBatteryLabel.setText(""); 
-        sensorDaysUntil.setText(""); 
-        ZenSense.selectedSensor = null;
+        if(ZenSense.selectedSensor == null){
+            sensorIDLabel.setText("Click a sensor for information");
+            sensorVoltageLabel.setText("");
+            sensorBatteryLabel.setText(""); 
+            sensorDaysUntil.setText(""); 
+        }else{
+            ZenSense.updateSelected();
+            displaySensor(ZenSense.selectedSensor);
+        }
+        
       }else{
           if(Double.parseDouble(ZenSense.selectedSensor[5])==REALSENSORID){
             displaySensor(ZenSense.selectedSensor);

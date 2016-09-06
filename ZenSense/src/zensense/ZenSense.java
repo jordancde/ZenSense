@@ -127,7 +127,13 @@ public class ZenSense {
     
     }
 
-   
+   public static void updateSelected(){
+       for(int i = 0;i<ZenSense.NUMSENSORS;i++){
+           if(Double.parseDouble((fileData.get(fileData.size()-i-1-NUMSENSORS*HISTORICINDEX)[5]))==Double.parseDouble(selectedSensor[5])){
+               selectedSensor = fileData.get(fileData.size()-i-1-NUMSENSORS*HISTORICINDEX);
+           }
+       }
+   }
     
     public void updateSensorData(double mouseX, double mouseY){
         for(int i = 0;i<ZenSense.NUMSENSORS;i++){
