@@ -38,6 +38,7 @@ public class ZenSense {
         FILEPATH = location.getFile()+"data.csv";
         
         if(!(new File(FILEPATH).canRead())){
+            
             (new File(FILEPATH)).createNewFile();
         }
         
