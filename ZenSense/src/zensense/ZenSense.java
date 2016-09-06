@@ -58,6 +58,13 @@ public class ZenSense {
         }
     }
     
+    public static void updateRealSensor(String value){
+        fileData.get(fileData.size()-REALSENSORID)[1] = value;
+        if(Double.parseDouble(selectedSensor[5])==REALSENSORID){
+            selectedSensor[1] = value;
+        }
+    }
+    
     public static void refreshData() throws IOException{
         readFile();
         d = new Date();
@@ -96,11 +103,7 @@ public class ZenSense {
         readFile();
     }
     
-    public static double[] pullData(){
-        double[] ethaneData = new double[NUMSENSORS];
-        
-        return ethaneData;
-    }
+    
     
     public static void writeFile(double[] data, long time) throws IOException{
         

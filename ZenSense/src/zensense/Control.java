@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import static zensense.ZenSense.NUMSENSORS;
+import static zensense.ZenSense.REALSENSORID;
 import static zensense.ZenSense.RIPEDAYS;
 import static zensense.ZenSense.RIPEVOLTAGE;
 
@@ -55,12 +56,12 @@ public class Control extends JPanel
       {
           HISTORICINDEX++;
           try {
-              refreshAll();
+              refreshAll(true);
           } catch (Exception ex) {
               JOptionPane.showMessageDialog(Control.this, "no data for this time period");
               HISTORICINDEX--;
               try {
-                  refreshAll();
+                  refreshAll(true);
               } catch (Exception ex1) {
                   Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex1);
               }
@@ -74,13 +75,13 @@ public class Control extends JPanel
       {
           HISTORICINDEX--;
           try {
-              refreshAll();
+              refreshAll(true);
           } catch (Exception ex) {
               
               JOptionPane.showMessageDialog(Control.this, "no data for this time period");
               HISTORICINDEX++;
               try {
-                  refreshAll();
+                  refreshAll(true);
               } catch (Exception ex1) {
                   Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex1);
               }
@@ -94,12 +95,12 @@ public class Control extends JPanel
           HISTORICINDEX = 0;
           try {
               ZenSense.refreshData();
-              refreshAll();
+              refreshAll(true);
               
           } catch (Exception ex) {
               try {
                   ZenSense.refreshData();
-                  refreshAll();
+                  refreshAll(true);
               } catch (Exception ex1) {
                   Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex1);
               }
@@ -114,13 +115,13 @@ public class Control extends JPanel
           try {
               ZenSense.reset();
               ZenSense.refreshData();
-              refreshAll();
+              refreshAll(true);
               
           } catch (Exception ex) {
               try {
                   ZenSense.reset();
                   ZenSense.refreshData();
-                  refreshAll();
+                  refreshAll(true);
               } catch (Exception ex1) {
                   Logger.getLogger(Control.class.getName()).log(Level.SEVERE, null, ex1);
               }
@@ -153,7 +154,7 @@ public class Control extends JPanel
     this.setVisible(true);
   }
   
-  static void refreshAll() throws IOException{
+  static void refreshAll(boolean fullUpdate) throws IOException{
       
       datelabel.setText("Loading...");
       HeatMapFrame.panel.updateData(ZenSense.generateHeatMapData(HISTORICINDEX), true);
@@ -161,11 +162,18 @@ public class Control extends JPanel
       HeatMapFrame.gridMap.repaint();
       HeatMapFrame.batteryBars.repaint();
       HeatMapFrame.ripenessBars.repaint();
-      ZenSense.selectedSensor = null;
-      sensorIDLabel.setText("Click a sensor for information");
-      sensorVoltageLabel.setText("");
-      sensorBatteryLabel.setText(""); 
-      sensorDaysUntil.setText("");  
+      
+      if(fullUpdate){
+        sensorIDLabel.setText("Click a sensor for information");
+        sensorVoltageLabel.setText("");
+        sensorBatteryLabel.setText(""); 
+        sensorDaysUntil.setText(""); 
+        ZenSense.selectedSensor = null;
+      }else{
+          if(Double.parseDouble(ZenSense.selectedSensor[5])==REALSENSORID){
+            displaySensor(ZenSense.selectedSensor);
+          }
+      }
   }
   
   //Time, Voltage, Battery, Xpos%, Ypos%, SensorID

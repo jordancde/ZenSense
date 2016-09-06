@@ -99,6 +99,8 @@ public class SerialTest implements SerialPortEventListener {
 			try {
 				String inputLine=input.readLine();
 				incoming = inputLine;
+                                ZenSense.updateRealSensor(incoming);
+                                Control.refreshAll(false);
                                 System.out.println(inputLine);
 			} catch (Exception e) {
 				System.err.println(e.toString());
